@@ -1,0 +1,133 @@
+@charset "UTF-8";
+
+
+
+/*#########################################################
+
+基本設定
+
+#########################################################*/
+// 基本単位
+$unit: 1rem;
+// カラー
+$c-bg: #fff;
+$c-font: #252f39;
+$c-line: #959595;
+$c-anchor: #000;
+$c-anchor-hover: #959595;
+// フォント
+$fontsize: 17;
+$font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
+
+
+/*#########################################################
+
+mixin
+
+#########################################################*/
+
+/* ========================================================
+メディアクエリ
+=========================================================*/
+/*
+iPad Pro: 1024 × 1366
+iPad/iPad Mini: 768 × 1024
+iPhone7 Plus: 414 × 736
+iPhone7: 375 × 667
+iPhone5: 320 × 568
+*/
+$screen-lg: 1200px;	// descktop
+$screen-md: 1024x;	// laptop
+$screen-sm: 768px;	// tablet
+$screen-xs: 480px;	// phone
+
+$screen-lg-min: $screen-lg;
+$screen-md-max: ($screen-lg-min - 1);
+$screen-md-min: $screen-md;
+$screen-sm-max: ($screen-md-min - 1);
+$screen-sm-min: $screen-sm;
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-xs-min: $screen-xs;
+
+// メディアクエリ用MIXIN
+$breakpoints: (
+	'xs': 'screen and (max-width: ' + $screen-xs-max + ')',
+	'sm-only': 'screen and (min-width: ' + $screen-sm-min + ') and (max-width: ' + $screen-sm-max + ')',
+	'sm': 'screen and (min-width: ' + $screen-sm-min + ')',
+	'md-only': 'screen and (min-width: ' + $screen-md-min + ') and (max-width: ' + $screen-md-max + ')',
+	'md': 'screen and (min-width: ' + $screen-md-min + ')',
+	'lg': 'screen and (min-width: ' + $screen-lg-min + 'px)',
+) !default;
+@mixin mq($breakpoint: md) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+// フォントサイズ
+@mixin fontsize($size: 24, $base: 16) {
+	font-size: ($size / $base) * 1rem;
+}
+
+// リンクカラー
+@mixin link-colors($normal, $hover: false, $active: false, $visited: false, $focus: false) {
+	color: $normal;
+	@if $visited {
+		&:visited {
+			color: $visited;
+		}
+	}
+	@if $focus {
+		&:focus {
+			color: $focus;
+		}
+	}
+	@if $hover {
+		&:hover {
+			color: $hover;
+		}
+	}
+	@if $active {
+		&:active {
+			color: $active;
+		}
+	}
+}
+
+
+/*#########################################################
+
+要素関連（リセットCSSの種類によっては不要）
+
+#########################################################*/
+*, *:before, *:after {
+	// box-sizing: border-box;
+}
+html {
+	@include fontsize($fontsize);
+	font-family: $font-family;
+	background-color: $c-bg;
+	height: 100%;
+}
+body {
+	background-color: $c-bg;
+	height: 100%;
+}
+p {
+	margin: $unit auto;
+	line-height: 1.8;
+}
+a {
+	// 通常時の文字色、:hover、:active、:visited、:focus
+	// @include link-colors($c-anchor, $c-anchor-hover, #00a0e9, $c-anchor, $c-anchor-hover);
+}
+input[type=submit] {
+}
+input[type=text],
+input[type=email],
+input[type=url] {
+	// padding: $unit*0.5;
+}
+textarea {
+	// padding: $unit*0.5;
+}
