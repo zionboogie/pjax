@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Document</title>
+	<title>home</title>
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="">
@@ -36,6 +36,7 @@
 		position: absolute;
 		top: 0px;
 		z-index: 10;
+		width: 100%;
 	}
 
 	#rhythmfactory {
@@ -51,22 +52,20 @@
 <body>
 
 	<div id="pjax">
-		<ul>
+		<ul class="nav-slider-box">
 			<li>
-				<a href="./page1.html" class="nav prev">prev</a>
+				<a href="./index.html" class="prev nav-slider" titele="prev"><span></span></a>
 			</li>
 			<li>
-				<a href="./page2.html" class="nav next">next</a>
+				<a href="./page2.html" class="next nav-slider" title="next"><span></span></a>
 			</li>
-
-			<li>
+			<!-- <li>
 				<a href="https://rfs.jp/">外部サイト</a>
-			</li>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 	<main id="barba-wrapper">
-		<div class="barba-container" id="particles-js" data-namespace="page1" data-prev="page3.html" data-next="page2.html">
+		<div class="barba-container" id="particles-js" data-namespace="index" data-prev="page3.html" data-next="page2.html">
 
 
 
@@ -260,13 +259,18 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js"></script>
 	<script src="SplitText.min.js"></script>
 
+	<script src="https://tympanus.net/Development/MorphingPageTransition/js/imagesloaded.pkgd.min.js"></script>
+	<script src="https://tympanus.net/Development/MorphingPageTransition/js/charming.min.js"></script>
+	<script src="https://tympanus.net/Development/MorphingPageTransition/js/anime.min.js"></script>
+	<!-- <script src="https://tympanus.net/Development/MorphingPageTransition/js/demo1.js"></script> -->
+
 	</script>
 	<script>
-		function page1() {
+		function index() {
 			// パーティクルの読み込み
 			particlesJS.load('particles-js', 'particlesjs-config.json', function() {
 				// このページのcontainerが読み込みを開始した時。
-				console.log("page1");
+				console.log("index");
 			});
 
 			/* ========================================================
@@ -321,7 +325,7 @@
 
 
 		}
-		page1();
+		index();
 
 
 
@@ -639,13 +643,135 @@
 		// 最後にinit()を実行することを忘れずに。
 		Homepage.init();
 
-		var page1Barba = Barba.BaseView.extend({
-			namespace: 'page1',
+		var indexBarba = Barba.BaseView.extend({
+			namespace: 'index',
 			onEnter: function() {
-				page1();
+				index();
 			},
 		});
-		page1Barba.init();
+		indexBarba.init();
+
+		var page3Barba = Barba.BaseView.extend({
+			namespace: 'page3',
+			onEnter: function() {
+				console.log("page3");
+
+
+
+/**
+ * demo1.js
+ * http://www.codrops.com
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Copyright 2017, Codrops
+ * http://www.codrops.com
+ */
+{
+	const DOM = {};
+	DOM.intro = document.querySelector('.content--intro');
+	DOM.shape = DOM.intro.querySelector('svg.shape');
+	DOM.path = DOM.shape.querySelector('path');
+	DOM.enter = document.querySelector('.enter');
+	charming(DOM.enter);
+	DOM.enterLetters = Array.from(DOM.enter.querySelectorAll('span'));
+	// Set the SVG transform origin.
+	DOM.shape.style.transformOrigin = '50% 0%';
+
+	const init = () => {
+		imagesLoaded(document.body, {background: true} , () => document.body.classList.remove('loading'));
+		DOM.enter.addEventListener('click', navigate);
+		DOM.enter.addEventListener('touchenter', navigate);
+		DOM.enter.addEventListener('mouseenter', enterHoverInFn);
+		DOM.enter.addEventListener('mouseleave', enterHoverOutFn);
+	};
+
+	let loaded;
+	const navigate = () => {
+		if ( loaded ) return;
+		loaded = true;
+
+		anime({
+			targets: DOM.intro,
+			duration: 1100,
+			easing: 'easeInOutSine',
+			translateY: '-200vh'
+		});
+
+		anime({
+			targets: DOM.shape,
+			scaleY: [
+				{value:[0.8,1.8],duration: 550,easing: 'easeInQuad'},
+				{value:1,duration: 550,easing: 'easeOutQuad'}
+			]
+		});
+
+		anime({
+			targets: DOM.path,
+			duration: 1100,
+			easing: 'easeOutQuad',
+			d: DOM.path.getAttribute('pathdata:id')
+		});
+	};
+
+	let isActive;
+	let enterTimeout;
+
+	const enterHoverInFn = () => enterTimeout = setTimeout(() => {
+		isActive = true;
+		anime.remove(DOM.enterLetters);
+		anime({
+			targets: DOM.enterLetters,
+			delay: (t,i) => i*15,
+			translateY: [
+				{value: 10, duration: 150, easing: 'easeInQuad'},
+				{value: [-10,0], duration: 150, easing: 'easeOutQuad'}
+			],
+			opacity: [
+				{value: 0, duration: 150, easing: 'linear'},
+				{value: 1, duration: 150, easing: 'linear'}
+			],
+			color: {
+				value: '#ff963b',
+				duration: 1,
+				delay: (t,i,l) => i*15+150
+			}
+		});
+	}, 50);
+
+	const enterHoverOutFn = () => {
+		clearTimeout(enterTimeout);
+		if( !isActive ) return;
+		isActive = false;
+
+		anime.remove(DOM.enterLetters);
+		anime({
+			targets: DOM.enterLetters,
+			delay: (t,i,l) => (l-i-1)*15,
+			translateY: [
+				{value: 10, duration: 150, easing: 'easeInQuad'},
+				{value: [-10,0], duration: 150, easing: 'easeOutQuad'}
+			],
+			opacity: [
+				{value: 0, duration: 150, easing: 'linear'},
+				{value: 1, duration: 150, easing: 'linear'}
+			],
+			color: {
+				value: '#ffffff',
+				duration: 1,
+				delay: (t,i,l) => (l-i-1)*15+150
+			}
+		});
+	};
+
+	init();
+};
+
+
+			},
+		});
+		page3Barba.init();
 	</script>
 
 </body>

@@ -1,20 +1,120 @@
-@charset "UTF-8";
-
-/*#########################################################
+@charset "UTF-8"; /*#########################################################
 
 読み込み
 
 #########################################################*/
 // Bourbon読み込み
-@import "bourbon";
-
-/* ========================================================
+@import "bourbon"; /* ========================================================
 リセット系CSS（どれか1つを選択）
 =========================================================*/
 // @import "_reset.scss";	// デフォルトスタイルをリセット
 // @import "_normalize.scss";	// デフォルトのスタイルを定義
-@import "_ress.scss";	// normalize.cssを最近のWeb制作にあうようカスタマイズ
-
+@import "_ress.scss"; // normalize.cssを最近のWeb制作にあうようカスタマイズ
 // 基本設定
-@import "_base.scss";
+@import "_base.scss"; /*#########################################################
 
+共通設定
+
+#########################################################*/
+
+.nav-slider-box{
+	display: flex;
+	justify-content: space-between;
+	width: 95%;
+	margin: auto;
+	list-style: none;
+	margin-top: 100px;
+}
+
+a.nav-slider {
+	position: relative;
+	display: block;
+	width: 46px;
+
+
+	span {
+		position: absolute;
+		text-indent: 0;
+		// top: 0;
+		// left: 50%;
+		width: 46px;
+		height: 46px;
+		// margin-left: -23px;
+		border: 1px solid #fff;
+		border-radius: 100%;
+		box-sizing: border-box;
+	}
+	span::after {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		content: '';
+		width: 16px;
+		height: 16px;
+		margin: -8px 0 0 -13px;
+		border-left: 1px solid #fff;
+		border-bottom: 1px solid #fff;
+		transform: rotate(230deg);
+		box-sizing: border-box;
+	}
+	span::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		content: '';
+		width: 44px;
+		height: 44px;
+		box-shadow: 0 0 0 0 rgba(255,255,255,.1);
+		border-radius: 100%;
+		opacity: 0;
+		animation: sdb 3s infinite;
+		box-sizing: border-box;
+	}
+}
+a.next{
+}
+a.prev{
+	span::after {
+		transform: rotate(45deg);
+		margin-left: -5px;
+	}
+}
+
+
+@-webkit-keyframes sdb {
+	0% {
+		opacity: 0;
+	}
+
+	30% {
+		opacity: 1;
+	}
+
+	60% {
+		box-shadow: 0 0 0 60px rgba(255,255,255,.1);
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes sdb {
+	0% {
+		opacity: 0;
+	}
+
+	30% {
+		opacity: 1;
+	}
+
+	60% {
+		box-shadow: 0 0 0 60px rgba(255,255,255,.1);
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
